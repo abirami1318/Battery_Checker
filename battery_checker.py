@@ -5,6 +5,7 @@ class Battery_checker:
     battery = psutil.sensors_battery()
     plugged = battery.power_plugged
     mixer.init()
+    self.status = 'Stop'
     def play_song(self):
         print('Music Playing..')
         mixer.music.load('C:/Users/Admin/Documents/Download Intro Song   Chill intro music  10 Second(MP3_160K).mp3')
@@ -20,19 +21,23 @@ class Battery_checker:
                     battery = psutil.sensors_battery()
                     plugged = battery.power_plugged
                     if not plugged:
-                        self.play_song()
-                        sleep(10)
-                    if plugged:
+                        if self.status == 'Stop':
+                            self.play_song()
+                            self.status = 'Play'
+                    if plugged and self.status == 'Play':
                         self.stop_song()
+                        self.status = 'Stop'
             while battery.percent == 100 and plugged:
                 while True:
                     battery = psutil.sensors_battery()
                     plugged = battery.power_plugged
                     if plugged:
-                        self.play_song()
-                        sleep(10)
-                    if not plugged:
+                        if self.status == 'Stop':
+                            self.play_song()
+                            self.status = 'Play'
+                    if not plugged and self.status == 'Play':
                         self.stop_song()
+                        self.status = 'Stop'
 
 if __name__ == '__main__':
     bat = Battery_checker()
