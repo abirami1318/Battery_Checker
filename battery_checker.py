@@ -16,7 +16,7 @@ class Battery_checker:
         while True:
             battery = psutil.sensors_battery()
             plugged = battery.power_plugged
-            while battery.percent < 50 and not plugged:
+            while battery.percent < 20 and not plugged:
                 while True:
                     battery = psutil.sensors_battery()
                     plugged = battery.power_plugged
